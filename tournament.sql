@@ -10,7 +10,7 @@ CREATE DATABASE tournament;
 
 CREATE TABLE matches (
   winner_id INTEGER REFERENCES players(player_id),
-  losing_id INTEGER REFERENCES players(player_id),
+  loser_id INTEGER REFERENCES players(player_id),
   match_id      serial PRIMARY KEY
 );
 
