@@ -23,11 +23,7 @@ def testCount():
         raise TypeError(
             "countPlayers() should return numeric zero, not string '0'.")
     if c != 0:
-        print ("countPlayers() returned: ")
-        print (c)
         raise ValueError("After deleting, countPlayers should return zero.")
-    print ("countPlayers() returned: ")
-    print (c)
     print "3. After deleting, countPlayers() returns zero."
 
 
