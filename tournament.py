@@ -80,19 +80,23 @@ def playerStandings():
     cursor = connection.cursor()
 
     cursor.execute("""
-        SELECT *
-        FROM (SELECT player_id, winner_id, losing_id
-              FROM players LEFT JOIN matches
-              ON players.player_id = matches.winner_id) AS player_matches1,
-              UNION
-              (SELECT player_id, winner_id, losing_id
-              FROM players LEFT JOIN matches
-              ON players.player_id = matches.losing_id) AS player_matches2
-        GROUP BY player_id;
+        SELECT winning.player_id, winning.player_name, losing.losses, winning.wins
+        FROM (
+            SELECT player_id, player_name, count(winner_id) AS wins
+            FROM players LEFT JOIN matches
+            ON player_id = winner_id
+            GROUP BY player_id
+        ) AS winning
+        JOIN (
+            SELECT player_id, count(loser_id) AS losses
+            FROM players LEFT JOIN matches
+            ON player_id = loser_id
+            GROUP BY player_id
+        ) AS losing
+        ON winning.player_id = losing.player_id;
     """)
-    sql_standings = cursor.fetchall()
-    print sql_standings
-    standings = "do something to sql_standings"
+
+    standings = cursor.fetchall()
     return standings
 
     cursor.close()
