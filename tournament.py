@@ -7,10 +7,12 @@ import psycopg2
 
 def connect():
     """Connect to the PostgreSQL database.  Returns a database connection."""
+
     return psycopg2.connect("dbname=tournament")
 
 def deleteMatches():
     """Remove all the match records from the database."""
+
     connection = connect()
     cursor = connection.cursor()
 
@@ -22,6 +24,7 @@ def deleteMatches():
 
 def deletePlayers():
     """Remove all the player records from the database."""
+
     connection = connect()
     cursor = connection.cursor()
 
@@ -33,6 +36,7 @@ def deletePlayers():
 
 def countPlayers():
     """Returns the number of players currently registered."""
+
     connection= connect()
     cursor = connection.cursor()
 
@@ -43,7 +47,8 @@ def countPlayers():
     connection.close()
 
 def registerPlayer(name):
-    """Adds a player to the tournament database.
+    """
+    Adds a player to the tournament database.
 
     The database assigns a unique serial id number for the player.  (This
     should be handled by your SQL database schema, not in your Python code.)
@@ -51,6 +56,7 @@ def registerPlayer(name):
     Args:
       name: the player's full name (need not be unique).
     """
+
     connection = connect()
     cursor = connection.cursor()
 
@@ -73,14 +79,19 @@ def playerStandings():
         name: the player's full name (as registered)
         wins: the number of matches the player has won
         matches: the number of matches the player has played
+
     Example:
-    [(2, "blue jays"", 3, 3),(2, "cardinals", 0, 3)]
+    [(2, "Blue Jays"", 3, 3),(2, "Cardinals", 0, 3)]
     """
+
     connection = connect()
     cursor = connection.cursor()
 
     cursor.execute("""
-        SELECT winning.player_id, winning.player_name, losing.losses, winning.wins
+        SELECT winning.player_id,
+               winning.player_name,
+               winning.wins,
+               winning.wins+losing.losses AS number_of_matches
         FROM (
             SELECT player_id, player_name, count(winner_id) AS wins
             FROM players LEFT JOIN matches
@@ -93,7 +104,8 @@ def playerStandings():
             ON player_id = loser_id
             GROUP BY player_id
         ) AS losing
-        ON winning.player_id = losing.player_id;
+        ON winning.player_id = losing.player_id
+        ORDER BY winning.wins DESC;
     """)
 
     standings = cursor.fetchall()
@@ -104,23 +116,26 @@ def playerStandings():
 
 
 def reportMatch(winner, loser):
-    """Records the outcome of a single match between two players.
+    """
+    Records the outcome of a single match between two players.
 
     Args:
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
     """
+
     connection = connect()
     cursor = connection.cursor()
 
-    cursor.execute("INSERT INTO matches(winner_id, loser_id), VALUES(%s, %s)", (winner,loser,))
+    cursor.execute("INSERT INTO matches(winner_id, loser_id) VALUES(%s, %s)", (winner,loser,))
 
     connection.commit()
     cursor.close()
     connection.close()
 
 def swissPairings():
-    """Returns a list of pairs of players for the next round of a match.
+    """
+    Returns a list of pairs of players for the next round of a match.
 
     Assuming that there are an even number of players registered, each player
     appears exactly once in the pairings.  Each player is paired with another
