@@ -88,24 +88,15 @@ def playerStandings():
     cursor = connection.cursor()
 
     cursor.execute("""
-        SELECT winning.player_id,
-               winning.player_name,
-               winning.wins,
-               winning.wins+losing.losses AS number_of_matches
-        FROM (
-            SELECT player_id, player_name, count(winner_id) AS wins
-            FROM players LEFT JOIN matches
-            ON player_id = winner_id
-            GROUP BY player_id
-        ) AS winning
-        JOIN (
-            SELECT player_id, count(loser_id) AS losses
-            FROM players LEFT JOIN matches
-            ON player_id = loser_id
-            GROUP BY player_id
-        ) AS losing
-        ON winning.player_id = losing.player_id
-        ORDER BY winning.wins DESC;
+        SELECT
+            player_id,
+            player_name,
+            wins,
+            number_of_matches
+        FROM
+            ranking
+        ORDER BY wins DESC
+        LIMIT 1000;
     """)
 
     standings = cursor.fetchall()
@@ -127,7 +118,10 @@ def reportMatch(winner, loser):
     connection = connect()
     cursor = connection.cursor()
 
-    cursor.execute("INSERT INTO matches(winner_id, loser_id) VALUES(%s, %s)", (winner,loser,))
+    cursor.execute("""
+        INSERT INTO matches(winner_id, loser_id)
+        VALUES(%s, %s)
+    """, (winner,loser,))
 
     connection.commit()
     cursor.close()
@@ -149,3 +143,30 @@ def swissPairings():
         id2: the second player's unique id
         name2: the second player's name
     """
+    connection = connect()
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        SELECT
+            left_player.player_id,
+            left_player.player_name,
+            right_player.player_id,
+            right_player.player_name
+        FROM
+            (SELECT player_id, player_name, rank
+            FROM ranking
+            ) AS left_player,
+            (SELECT player_id, player_name, rank
+            FROM ranking
+            ) AS right_player
+        WHERE
+            left_player.rank+1=right_player.rank
+            AND MOD(left_player.rank, 2) = 1
+        ORDER BY left_player.rank DESC;
+    """)
+
+    next_pairings = cursor.fetchall()
+    return next_pairings
+
+    cursor.close()
+    connection.close()
