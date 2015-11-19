@@ -13,7 +13,7 @@ To run this backend database, you must:
      git clone https://github.com/udacity/fullstack-nanodegree-vm.git fullstack)
   4. Download the contents of this repo.
   5. Open command prompt.
-  6. cd [directory of repo clone] && python tournament_test.py
-  7. The file should run 8 tests, and print "Success! All tests pass!"
+  6. cd [directory of repo clone] && python tournament_init.py
+  7. Some console messages should print, ending with "Success! All tests pass!"
   8. Peek inside tournament.py
   9. Profit!
