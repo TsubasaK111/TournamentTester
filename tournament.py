@@ -100,15 +100,14 @@ def playerStandings():
             number_of_matches
         FROM
             ranking
-        ORDER BY wins DESC
         LIMIT 1000;
     """)
 
     standings = cursor.fetchall()
-    return standings
 
     cursor.close()
     connection.close()
+    return standings
 
 
 def reportMatch(winner, loser):
@@ -172,7 +171,7 @@ def swissPairings():
     """)
 
     next_pairings = cursor.fetchall()
-    return next_pairings
 
     cursor.close()
     connection.close()
+    return next_pairings
