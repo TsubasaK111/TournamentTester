@@ -3,6 +3,7 @@
 # Execute this script before running tournament.py or tournament_test.py!
 
 import subprocess
+import tournament_test
 
 create_database_output = subprocess.check_output("psql -c 'CREATE DATABASE tournament;'", shell=True)
 
@@ -13,3 +14,5 @@ tournament_sql_output = subprocess.check_output("psql -f tournament.sql", shell=
 
 print("tournament_sql_output returned:")
 print(tournament_sql_output)
+
+tournament_test.testAll()
