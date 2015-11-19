@@ -1,6 +1,9 @@
 -- Table definitions for the tournament project.
 
+-- Connect to tournament database before declaring tables.
+\c tournament;
 
+-- Declare tables and views in order of dependency.
 CREATE TABLE IF NOT EXISTS players (
   player_name text NOT NULL,
   player_id serial PRIMARY KEY
