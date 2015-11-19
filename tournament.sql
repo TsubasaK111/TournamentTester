@@ -1,6 +1,29 @@
 -- Table definitions for the tournament project.
 
 
+-- Use dblink to CREATE DATABASE IF NOT EXISTS,
+-- Which is not allowed in PostgreSQL.
+-- Workaround copied from:
+-- http://stackoverflow.com/questions/18389124/simulate-create-database-if-not-exists-for-postgresql
+
+CREATE EXTENSION IF NOT EXISTS dblink;
+
+SET search_path = blarg,public;
+
+DO
+  $do$
+    BEGIN
+      IF EXISTS (SELECT 1 FROM pg_database WHERE datname = 'tournament') THEN
+        RAISE NOTICE 'Database already exists';
+      ELSE
+        PERFORM dblink_exec('dbname=tournament' || current_database(),
+                            'CREATE DATABASE tournament');
+      END IF;
+    END
+  $do$
+
+ \c tournament
+
 CREATE TABLE IF NOT EXISTS players (
   player_name text NOT NULL,
   player_id serial PRIMARY KEY
