@@ -1,6 +1,6 @@
 -- Table definitions for the tournament project.
 
--- Connect to tournament database before declaring tables.
+-- Connect to database before declaring tables.
 \c tournament;
 
 -- Declare tables and views in order of dependency.
@@ -11,8 +11,8 @@ CREATE TABLE IF NOT EXISTS players (
 
 
 CREATE TABLE IF NOT EXISTS matches (
-  winner_id INTEGER REFERENCES players(player_id),
-  loser_id  INTEGER REFERENCES players(player_id),
+  winner_id INTEGER REFERENCES players(player_id) ON DELETE CASCADE,
+  loser_id  INTEGER REFERENCES players(player_id) ON DELETE CASCADE,
   match_id  SERIAL PRIMARY KEY
 );
 
