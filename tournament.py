@@ -8,14 +8,14 @@ import psycopg2
 def connect():
     """Connect to the PostgreSQL database.  Returns a database connection."""
 
-    return psycopg2.connect("dbname=tournament")
-
+    connection = psycopg2.connect("dbname=tournament")
+    cursor = connection.cursor()
+    return connection, cursor
 
 def deleteMatches():
     """Remove all the match records from the database."""
 
-    connection = connect()
-    cursor = connection.cursor()
+    connection, cursor = connect()
 
     cursor.execute("DELETE FROM matches;")
 
@@ -27,8 +27,7 @@ def deleteMatches():
 def deletePlayers():
     """Remove all the player records from the database."""
 
-    connection = connect()
-    cursor = connection.cursor()
+    connection, cursor = connect()
 
     cursor.execute("DELETE FROM players;")
 
@@ -40,8 +39,7 @@ def deletePlayers():
 def countPlayers():
     """Returns the number of players currently registered."""
 
-    connection = connect()
-    cursor = connection.cursor()
+    connection, cursor = connect()
 
     cursor.execute("SELECT count(*) FROM players;")
     return cursor.fetchone()[0]
@@ -61,8 +59,7 @@ def registerPlayer(name):
       name: the player's full name (need not be unique).
     """
 
-    connection = connect()
-    cursor = connection.cursor()
+    connection, cursor = connect()
 
     cursor.execute("INSERT INTO players(player_name) VALUES(%s)", (name,))
 
@@ -89,8 +86,7 @@ def playerStandings():
     [(2, "Blue Jays"", 3, 3),(2, "Cardinals", 0, 3)]
     """
 
-    connection = connect()
-    cursor = connection.cursor()
+    connection, cursor = connect()
 
     cursor.execute("""
         SELECT
@@ -119,8 +115,7 @@ def reportMatch(winner, loser):
       loser:  the id number of the player who lost
     """
 
-    connection = connect()
-    cursor = connection.cursor()
+    connection, cursor = connect()
 
     cursor.execute("""
         INSERT INTO matches(winner_id, loser_id)
@@ -148,8 +143,7 @@ def swissPairings():
         id2: the second player's unique id
         name2: the second player's name
     """
-    connection = connect()
-    cursor = connection.cursor()
+    connection, cursor = connect()
 
     cursor.execute("""
         SELECT
