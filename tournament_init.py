@@ -5,14 +5,20 @@
 import subprocess
 import tournament_test
 
-create_database_output = subprocess.check_output("psql -c 'CREATE DATABASE tournament;'", shell=True)
+try:
+    create_database_output = subprocess.check_output(
+                            "psql -c 'CREATE DATABASE tournament;'", shell=True)
+except:
+    print("EXCEPTION: create_database_output returned:")
+    print(create_database_output)
+    pass
 
-print("create_database_output returned:")
-print(create_database_output)
-
-tournament_sql_output = subprocess.check_output("psql -f tournament.sql", shell=True)
-
-print("tournament_sql_output returned:")
-print(tournament_sql_output)
+try:
+    tournament_sql_output = subprocess.check_output(
+                            "psql -f tournament.sql", shell=True)
+except:
+    print("EXCEPTION: tournament_sql_output returned:")
+    print(tournament_sql_output)
+    pass
 
 tournament_test.testAll()
