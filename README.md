@@ -29,7 +29,7 @@ and `vagrant up`.)
   continue to create/replace tables and test database functionality in the
   preexisting database.
 
-  ###Todo: try to make script continue if database already exists.
-  
+###Todo: try to make script continue if database already exists.
+
 ##License:
   TournamentTester is distributed under the <a href="http://opensource.org/licenses/MIT">MIT License</a>.
