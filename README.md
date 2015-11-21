@@ -15,13 +15,13 @@ necessary to manage a tournament in the popular "Swiss Tournament" style.
   7. Profit!
 
 ##Requirements:
-  * Python2 (https://www.python.org/downloads/)
-  * Install PostgreSQL (http://www.postgresql.org/)
-  * Install SQLAlchemy (http://www.sqlalchemy.org/)
-  
-  (If you run vagrant and git, you can just:
-   `git clone https://github.com/udacity/fullstack-nanodegree-vm.git fullstack`
-   and `vagrant up`.)
+  * <a href="https://www.python.org/downloads/">Python2</a>
+  * <a href="http://www.postgresql.org/">PostgreSQL</a>
+  * <a href="http://www.sqlalchemy.org/"> SQLAlchemy</a>
+
+(If you run vagrant and git, you can just:
+`git clone https://github.com/udacity/fullstack-nanodegree-vm.git fullstack`
+and `vagrant up`.)
 
 ##Issues:
 
