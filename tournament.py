@@ -161,7 +161,8 @@ def swissPairings():
         WHERE
             left_player.rank+1=right_player.rank
             AND MOD(left_player.rank, 2) = 1
-        ORDER BY left_player.rank DESC;
+        ORDER BY left_player.rank DESC
+        LIMIT 1000;
     """)
 
     next_pairings = cursor.fetchall()
