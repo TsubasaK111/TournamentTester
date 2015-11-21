@@ -19,7 +19,7 @@ necessary to manage a tournament in the popular "Swiss Tournament" style.
   * <a href="http://www.postgresql.org/">PostgreSQL</a>
   * <a href="http://www.sqlalchemy.org/"> SQLAlchemy</a>
 <br>
-<br>(If you run vagrant and git, you can just:<br>
+<br>(_Alternatively_, if you run vagrant and git, you can just:<br>
 `git clone https://github.com/udacity/fullstack-nanodegree-vm.git fullstack`<br>
 and `vagrant up`.)
 
