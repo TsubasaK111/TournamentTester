@@ -24,6 +24,12 @@ necessary to manage a tournament in the popular "Swiss Tournament" style.
 and `vagrant up`.)
 
 ##Issues:
+  Scaffolding script in `tournament_init.py` fails and halts when 'tournament'
+  database already exists. If the database already exists, the script should
+  continue to create/replace tables and test database functionality in the
+  preexisting database.
 
+  ###Todo: try to make script continue if database already exists.
+  
 ##License:
   TournamentTester is distributed under the <a href="http://opensource.org/licenses/MIT">MIT License</a>.
