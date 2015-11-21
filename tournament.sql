@@ -5,15 +5,23 @@
 
 -- Declare tables and views in order of dependency.
 CREATE TABLE IF NOT EXISTS players (
-  player_name text NOT NULL,
-  player_id serial PRIMARY KEY
+  player_name TEXT
+    NOT NULL,
+  player_id SERIAL
+    PRIMARY KEY
 );
 
 
 CREATE TABLE IF NOT EXISTS matches (
-  winner_id INTEGER REFERENCES players(player_id) ON DELETE CASCADE,
-  loser_id  INTEGER REFERENCES players(player_id) ON DELETE CASCADE,
-  match_id  SERIAL PRIMARY KEY
+  winner_id INTEGER
+    REFERENCES players(player_id)
+    ON DELETE CASCADE,
+  loser_id  INTEGER
+    REFERENCES players(player_id)
+    ON DELETE CASCADE
+    CHECK (loser_id <> winner_id),
+  match_id  SERIAL
+    PRIMARY KEY
 );
 
 
